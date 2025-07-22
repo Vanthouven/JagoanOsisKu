@@ -364,7 +364,7 @@
                     <label for="password">Password</label>
                     <div class="input-container">
                         <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan password Anda" required>
-                        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                        <i id="togglePassword"></i>
                     </div>
                     <div class="error-message" id="passwordError">Password harus diisi</div>
                 </div>
