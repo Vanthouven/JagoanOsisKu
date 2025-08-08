@@ -348,161 +348,89 @@
         </div>
 
         <div class="right-section">
-            <form class="login-form" id="loginForm">
+            <form method="POST" action="{{ route('login') }}" class="login-form" id="loginForm">
+                @csrf
+
                 <div class="form-header">
                     <h2>Masuk ke Akun</h2>
                     <p>Silakan masuk untuk melanjutkan pemilihan</p>
                 </div>
 
+                {{-- Session error (invalid credentials) --}}
+                @if(session('error'))
+                    <div class="error-message" style="display:block; margin-bottom:1rem;">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Masukkan username Anda" required>
-                    <div class="error-message" id="usernameError">Username harus diisi</div>
+                    <label for="nis">NIS</label>
+                    <input type="text"
+                           id="nis"
+                           name="nis"
+                           class="form-control @error('nis') is-invalid @enderror"
+                           placeholder="Masukkan NIS Anda"
+                           value="{{ old('nis') }}"
+                           required
+                           autofocus>
+                    @error('nis')
+                        <div class="error-message" style="display:block;">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
                     <div class="input-container">
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan password Anda" required>
-                        <i id="togglePassword"></i>
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               class="form-control @error('password') is-invalid @enderror"
+                               placeholder="Masukkan password Anda"
+                               required>
+                        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
                     </div>
-                    <div class="error-message" id="passwordError">Password harus diisi</div>
+                    @error('password')
+                        <div class="error-message" style="display:block;">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="form-options">
                     <div class="checkbox-container">
-                        <input type="checkbox" id="remember" name="remember">
+                        <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
                         <label for="remember">Ingat saya</label>
                     </div>
-                    <a href="#" class="forgot-password">Lupa password?</a>
                 </div>
 
                 <button type="submit" class="login-btn">
                     <i class="fas fa-sign-in-alt" style="margin-right: 0.5rem;"></i>
                     Masuk
                 </button>
-
-                <div class="success-message" id="successMessage">Login berhasil! Mengalihkan...</div>
             </form>
         </div>
     </div>
 
     <script>
-        // Password toggle functionality - FIXED
+        // Password toggle
         const togglePassword = document.getElementById('togglePassword');
         const passwordInput = document.getElementById('password');
-
         togglePassword.addEventListener('click', function() {
-            const isPassword = passwordInput.getAttribute('type') === 'password';
-
-            // Toggle input type
-            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
-
-            // Toggle icon classes properly
-            if (isPassword) {
-                // Show password -> use eye-slash icon
-                this.classList.remove('fa-eye');
-                this.classList.add('fa-eye-slash');
-            } else {
-                // Hide password -> use eye icon
-                this.classList.remove('fa-eye-slash');
-                this.classList.add('fa-eye');
-            }
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
         });
 
-        // Form validation and submission
-        const loginForm = document.getElementById('loginForm');
-        const usernameInput = document.getElementById('username');
-        const usernameError = document.getElementById('usernameError');
-        const passwordError = document.getElementById('passwordError');
-        const successMessage = document.getElementById('successMessage');
-
-        // Real-time validation
-        usernameInput.addEventListener('blur', validateUsername);
-        passwordInput.addEventListener('blur', validatePassword);
-
-        function validateUsername() {
-            const username = usernameInput.value.trim();
-            if (username === '') {
-                showError(usernameInput, usernameError, 'Username harus diisi');
-                return false;
-            } else if (username.length < 3) {
-                showError(usernameInput, usernameError, 'Username minimal 3 karakter');
-                return false;
-            } else {
-                hideError(usernameInput, usernameError);
-                return true;
-            }
-        }
-
-        function validatePassword() {
-            const password = passwordInput.value;
-            if (password === '') {
-                showError(passwordInput, passwordError, 'Password harus diisi');
-                return false;
-            } else if (password.length < 6) {
-                showError(passwordInput, passwordError, 'Password minimal 6 karakter');
-                return false;
-            } else {
-                hideError(passwordInput, passwordError);
-                return true;
-            }
-        }
-
-        function showError(input, errorElement, message) {
-            input.style.borderColor = '#D32F2F';
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
-        }
-
-        function hideError(input, errorElement) {
-            input.style.borderColor = '#E8E8E8';
-            errorElement.style.display = 'none';
-        }
-
-        // Form submission
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const isUsernameValid = validateUsername();
-            const isPasswordValid = validatePassword();
-
-            if (isUsernameValid && isPasswordValid) {
-                // Simulate login process
-                const loginBtn = document.querySelector('.login-btn');
-                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 0.5rem;"></i>Memproses...';
-                loginBtn.disabled = true;
-
-                setTimeout(() => {
-                    successMessage.style.display = 'block';
-                    setTimeout(() => {
-                        // Redirect to dashboard or voting page
-                        alert('Login berhasil! Anda akan diarahkan ke halaman pemilihan.');
-                        // window.location.href = 'dashboard.html';
-                    }, 1500);
-                }, 2000);
-            }
+        // Smooth focus effects
+        document.querySelectorAll('.form-control').forEach(control => {
+            control.addEventListener('focus', () => control.parentElement.style.transform = 'scale(1.01)');
+            control.addEventListener('blur', () => control.parentElement.style.transform = 'scale(1)');
         });
 
-        // Add smooth focus effects
-        const formControls = document.querySelectorAll('.form-control');
-        formControls.forEach(control => {
-            control.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'scale(1.01)';
-            });
-
-            control.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'scale(1)';
-            });
-        });
-
-        // Add loading animation on page load
-        window.addEventListener('load', function() {
+        // Page load animation
+        window.addEventListener('load', () => {
             document.body.style.opacity = '0';
             document.body.style.transition = 'opacity 0.6s ease';
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 100);
+            setTimeout(() => document.body.style.opacity = '1', 100);
         });
     </script>
 </body>
