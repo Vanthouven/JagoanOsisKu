@@ -394,12 +394,12 @@
                     @enderror
                 </div>
 
-                <div class="form-options">
+                <!-- <div class="form-options">
                     <div class="checkbox-container">
                         <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
                         <label for="remember">Ingat saya</label>
                     </div>
-                </div>
+                </div> -->
 
                 <button type="submit" class="login-btn">
                     <i class="fas fa-sign-in-alt" style="margin-right: 0.5rem;"></i>

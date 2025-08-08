@@ -3,155 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OSIS Dipta Baskara – SMKN 1 Probolinggo | Portal Pemilihan 2025</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>JagoanOsisKu - Platform Pemilihan OSIS Digital</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        :root {
+            --deep-red: #973838ff;
+            --purple: #9a1b1bff;
+            --soft-lavender: #e7bebeff;
+            --white: #FFFFFF;
+            --light-gray: #F8F9FA;
+            --medium-gray: #E9ECEF;
+            --dark-gray: #495057;
+            --text-primary: #2C3E50;
+            --text-secondary: #6C757D;
+            --accent-blue: #4A90E2;
+            --success-green: #28A745;
+            --sidebar-width: 280px;
+        }
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
-        :root {
-            --deep-purple: #2E0066;
-            --bright-magenta: #A944D4;
-            --royal-purple: #6D28D9;
-            --clean-white: #FFFFFF;
-            --light-gray: #F8F9FA;
-            --text-dark: #333333;
-            --text-light: #666666;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            color: var(--text-dark);
-            overflow-x: hidden;
+            color: var(--text-primary);
+            background-color: var(--light-gray);
         }
-
-        /* Navigation */
-        .navbar {
-            background: var(--clean-white);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Sidebar Navigation */
+        .sidebar {
             position: fixed;
+            left: 0;
             top: 0;
-            width: 100%;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(180deg, var(--deep-red) 0%, var(--purple) 100%);
+            color: var(--white);
             z-index: 1000;
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+        }
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .sidebar-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        .sidebar-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .sidebar-subtitle {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        /* Voter Profile in Sidebar */
+        .sidebar-profile {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .profile-card {
+            background: rgba(255,255,255,0.15);
+            border-radius: 16px;
+            padding: 1.75rem 1rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .profile-avatar {
+            width: 95px; /* Slightly enlarged */
+            height: 95px; /* Slightly enlarged */
+            border-radius: 50%;
+            margin: 0 auto 0.75rem;
+            border: 3px solid rgba(255,255,255,0.4);
+            object-fit: cover;
+            object-position: center; /* Ensures the image fills the circle evenly */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
         }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            border-color: rgba(255,255,255,0.6);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
         }
-
-        .logo-section {
+        .profile-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .profile-class {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+        .profile-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            background: rgba(255,255,255,0.25);
+            padding: 0.4rem 0.8rem;
+            border-radius: 25px;
+            font-weight: 500;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        /* Sidebar Navigation Menu */
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+        .nav-link {
             display: flex;
             align-items: center;
             gap: 1rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
         }
-
-        .logo {
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.1);
+            border-left-color: var(--soft-lavender);
+        }
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+        /* Mobile Sidebar Toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--deep-red);
+            color: var(--white);
+            border: none;
             width: 50px;
             height: 50px;
-            border-radius: 10px;
-        }
-
-        .logo-text {
-            font-weight: 700;
+            border-radius: 50%;
             font-size: 1.2rem;
-            color: var(--deep-purple);
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            color: var(--royal-purple);
-            background: rgba(109, 40, 217, 0.1);
-        }
-
-        .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--deep-purple);
             cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
-
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--deep-purple) 0%, var(--bright-magenta) 100%);
-            padding: 8rem 2rem 4rem;
-            text-align: center;
-            color: white;
+            /* Simplified background with a soft gradient */
+            background: linear-gradient(135deg, var(--soft-lavender) 0%, var(--white) 50%, var(--light-gray) 100%);
+            padding: 4rem 0;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08); /* Subtle shadow */
+            /* Removed animation for a simpler effect */
         }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.05)" points="0,0 1000,300 1000,1000 0,700"/><polygon fill="rgba(255,255,255,0.03)" points="0,200 1000,0 1000,400 0,600"/></svg>');
-            background-size: cover;
-        }
-
+        /* Removed @keyframes heroPulse */
         .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
             position: relative;
             z-index: 2;
+            text-align: center;
         }
-
         .hero h1 {
             font-size: 3rem;
-            font-weight: 800;
+            font-weight: 700;
+            color: var(--deep-red);
             margin-bottom: 1rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease;
         }
-
         .hero p {
             font-size: 1.2rem;
+            color: var(--text-secondary);
             margin-bottom: 2rem;
-            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease 0.2s both;
         }
-
         .cta-buttons {
             display: flex;
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.4s both;
         }
-
         .btn {
             padding: 1rem 2rem;
             border: none;
-            border-radius: 12px;
+            border-radius: 50px;
             font-weight: 600;
             text-decoration: none;
             display: inline-flex;
@@ -161,342 +228,221 @@
             cursor: pointer;
             font-size: 1rem;
         }
-
         .btn-primary {
-            background: var(--clean-white);
-            color: var(--royal-purple);
-            box-shadow: 0 4px 15px rgba(255,255,255,0.3);
+            background: linear-gradient(135deg, var(--deep-red), var(--purple));
+            color: var(--white);
         }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(255,255,255,0.4);
-        }
-
         .btn-secondary {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
+            background: var(--white);
+            color: var(--deep-red);
+            border: 2px solid var(--deep-red);
         }
-
-        .btn-secondary:hover {
-            background: white;
-            color: var(--royal-purple);
+        .btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
-
         /* Section Styling */
         .section {
-            padding: 4rem 2rem;
+            padding: 4rem 0;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h2 {
             font-size: 2.5rem;
             font-weight: 700;
-            color: var(--deep-purple);
-            margin-bottom: 1rem;
+            margin-bottom: 3rem;
+            color: var(--deep-red);
         }
-
-        .section-title p {
-            font-size: 1.1rem;
-            color: var(--text-light);
-        }
-
-        /* Candidates Section */
-        .candidates {
-            background: var(--light-gray);
-        }
-
-        .candidates-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .candidate-card {
-            background: white;
+        /* Quick Vote Section */
+        .quick-vote {
+            background: var(--white);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 3rem;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid var(--medium-gray);
         }
-
-        .candidate-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--deep-purple), var(--bright-magenta));
-        }
-
-        .candidate-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        }
-
-        .candidate-photo {
-            width: 120px;
-            height: 120px;
+        .vote-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--deep-red), var(--purple));
             border-radius: 50%;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, var(--deep-purple), var(--bright-magenta));
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            margin: 0 auto 2rem;
+            color: var(--white);
             font-size: 3rem;
-            font-weight: bold;
         }
-
-        .candidate-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--deep-purple);
+        /* Candidates Section */
+        .candidates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .candidate-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border: 1px solid var(--medium-gray);
+            transition: all 0.3s ease;
+        }
+        .candidate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+        .candidate-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background: linear-gradient(135deg, var(--soft-lavender), var(--medium-gray));
+        }
+        .candidate-info {
+            padding: 2rem;
+        }
+        .candidate-info h3 {
+            color: var(--deep-red);
+            font-size: 1.4rem;
             margin-bottom: 0.5rem;
         }
-
-        .candidate-class {
-            color: var(--text-light);
+        .candidate-info .position {
+            color: var(--purple);
+            font-weight: 600;
             margin-bottom: 1rem;
-        }
-
-        .candidate-vision {
             font-size: 0.9rem;
-            color: var(--text-light);
+        }
+        .candidate-info p {
+            color: var(--text-secondary);
             margin-bottom: 1.5rem;
             line-height: 1.6;
         }
-
-        /* Timeline Section */
-        .timeline-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .timeline-item {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            text-align: center;
-            position: relative;
-        }
-
-        .timeline-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--royal-purple), var(--bright-magenta));
-            border-radius: 50%;
+        .candidate-actions {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            color: white;
-            font-size: 1.5rem;
+            gap: 1rem;
         }
-
-        .timeline-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--deep-purple);
+        .btn-small {
+            padding: 0.7rem 1.5rem;
+            font-size: 0.9rem;
+            border-radius: 25px;
+            flex: 1;
+            text-align: center;
+        }
+        /* Vote Results */
+        .vote-results {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid var(--medium-gray);
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .result-item {
+            text-align: center;
+            padding: 2rem;
+            background: var(--light-gray);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        .result-item:hover {
+            background: var(--soft-lavender);
+            transform: translateY(-2px);
+        }
+        .result-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--deep-red);
             margin-bottom: 0.5rem;
         }
-
-        .timeline-date {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
+        .result-label {
+            color: var(--text-secondary);
+            font-weight: 500;
         }
-
-        .timeline-desc {
-            color: var(--text-light);
-            font-size: 0.9rem;
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--medium-gray);
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
         }
-
-        /* Voting Section */
-        .voting-section {
-            background: linear-gradient(135deg, var(--royal-purple), var(--bright-magenta));
-            color: white;
-            text-align: center;
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--deep-red), var(--purple));
+            border-radius: 4px;
+            transition: width 2s ease;
         }
-
-        .voting-status {
-            background: rgba(255,255,255,0.1);
-            padding: 2rem;
-            border-radius: 20px;
-            margin-top: 2rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .voting-status h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .vote-btn {
-            background: white;
-            color: var(--royal-purple);
-            padding: 1rem 3rem;
-            font-size: 1.2rem;
-            font-weight: 700;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(255,255,255,0.3);
-        }
-
-        .vote-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(255,255,255,0.4);
-        }
-
-        .voted-status {
-            background: rgba(16, 185, 129, 0.2);
-            border: 2px solid rgba(16, 185, 129, 0.5);
-            color: #10B981;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-weight: 600;
-        }
-
-        /* Results Section */
-        .results {
-            background: var(--light-gray);
-        }
-
-        .chart-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
         /* Footer */
         .footer {
-            background: var(--deep-purple);
-            color: white;
-            padding: 3rem 2rem 2rem;
+            background: var(--white);
+            border-top: 1px solid var(--medium-gray);
+            padding: 3rem 0 2rem;
         }
-
         .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            gap: 3rem;
+            margin-bottom: 2rem;
         }
-
         .footer-section h3 {
+            color: var(--deep-red);
             margin-bottom: 1rem;
-            color: var(--bright-magenta);
+            font-size: 1.2rem;
         }
-
-        .footer-section p,
-        .footer-section a {
-            color: rgba(255,255,255,0.8);
+        .footer-section p, .footer-section a {
+            color: var(--text-secondary);
             text-decoration: none;
             margin-bottom: 0.5rem;
             display: block;
         }
-
         .footer-section a:hover {
-            color: white;
+            color: var(--deep-red);
         }
-
+        .footer-logos {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        .footer-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+        }
+        .footer-bottom {
+            border-top: 1px solid var(--medium-gray);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
         .social-links {
             display: flex;
             gap: 1rem;
-            margin-top: 1rem;
         }
-
         .social-links a {
             width: 40px;
             height: 40px;
-            background: rgba(255,255,255,0.1);
+            background: var(--light-gray);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--text-secondary);
             transition: all 0.3s ease;
         }
-
         .social-links a:hover {
-            background: var(--bright-magenta);
+            background: var(--deep-red);
+            color: var(--white);
             transform: translateY(-2px);
         }
-
-        .footer-bottom {
-            text-align: center;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.6);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: white;
-                flex-direction: column;
-                padding: 1rem;
-                box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            }
-
-            .nav-menu.active {
-                display: flex;
-            }
-
-            .mobile-menu-toggle {
-                display: block;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .section-title h2 {
-                font-size: 2rem;
-            }
-
-            .candidates-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .timeline-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -508,237 +454,332 @@
                 transform: translateY(0);
             }
         }
-
-        .fade-in-up {
-            animation: fadeInUp 0.6s ease forwards;
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .sidebar-toggle {
+                display: block;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .candidates-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer-logos {
+                justify-content: center;
+            }
         }
-
-        /* Scroll animations */
-        .scroll-animate {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .scroll-animate.visible {
-            opacity: 1;
-            transform: translateY(0);
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .hero {
+                padding: 2rem 0;
+            }
+            .section {
+                padding: 2rem 0;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo-section">
-                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logoosis.jpg-Ht7GvHJIhj5BTjKfxmVjWHlfoYEebb.jpeg" alt="OSIS Dipta Baskara" class="logo">
-                <div class="logo-text">OSIS Dipta Baskara</div>
+    <!-- Mobile Sidebar Toggle -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/JagoanOsisKu-Logo-zF5evax6Gyn0RQ9yjnlWM3O34IcnG1.png" alt="JagoanOsisKu Logo" class="sidebar-logo">
+            <h1 class="sidebar-title">JagoanOsisKu</h1>
+            <p class="sidebar-subtitle">Platform Pemilihan OSIS</p>
+        </div>
+        <!-- Voter Profile -->
+        <div class="sidebar-profile">
+            <div class="profile-card">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-H8mmkCGziiNC7pfWqspdMo3vs6XyAg.png" alt="Ahmad Rizki Pratama" class="profile-avatar">
+                <div class="profile-name">Ahmad Rizki Pratama</div>
+                <div class="profile-class">XII RPL 1</div>
+                <div class="profile-status">
+                    <i class="fas fa-circle" style="color: #ffc107;"></i>
+                    Belum Memilih
+                </div>
             </div>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#kandidat" class="nav-link">Kandidat</a></li>
-                <li><a href="#jadwal" class="nav-link">Jadwal</a></li>
-                <li><a href="#voting" class="nav-link">Voting</a></li>
-                <li><a href="#hasil" class="nav-link">Hasil</a></li>
-                <li><a href="#" class="nav-link" onclick="logout()">Logout</a></li>
-            </ul>
-            <button class="mobile-menu-toggle" id="mobileToggle">
-                <i class="fas fa-bars"></i>
-            </button>
+        </div>
+        <!-- Navigation Menu -->
+        <div class="sidebar-nav">
+            <div class="nav-item">
+                <a href="#home" class="nav-link active">
+                    <i class="fas fa-home"></i>
+                    <span>Beranda</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#vote" class="nav-link">
+                    <i class="fas fa-vote-yea"></i>
+                    <span>Voting</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#candidates" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Kandidat</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#results" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Hasil</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#profile" class="nav-link">
+                    <i class="fas fa-user"></i>
+                    <span>Profil Saya</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#logout" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Keluar</span>
+                </a>
+            </div>
         </div>
     </nav>
-
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content fade-in-up">
-            <h1>Selamat Datang di Portal Pemilihan Ketua OSIS 2025</h1>
-            <p>Bersama kita tentukan pemimpin terbaik untuk masa depan sekolah</p>
-            <div class="cta-buttons">
-                <a href="#kandidat" class="btn btn-primary">
-                    <i class="fas fa-users"></i>
-                    Lihat Kandidat
-                </a>
-                <a href="#voting" class="btn btn-secondary">
-                    <i class="fas fa-vote-yea"></i>
-                    Mulai Voting
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Candidates Section -->
-    <section class="section candidates" id="kandidat">
-        <div class="container">
-            <div class="section-title scroll-animate">
-                <h2>Kandidat Ketua OSIS 2025</h2>
-                <p>Kenali visi dan misi dari setiap kandidat</p>
-            </div>
-            <div class="candidates-grid">
-                <div class="candidate-card scroll-animate">
-                    <div class="candidate-photo">A</div>
-                    <div class="candidate-name">Ahmad Rizki</div>
-                    <div class="candidate-class">XII RPL 1</div>
-                    <div class="candidate-vision">
-                        "Membangun OSIS yang inovatif, kreatif, dan mampu menjadi wadah aspirasi seluruh siswa untuk kemajuan sekolah."
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Pilih Pemimpin Masa Depan</h1>
+                    <p>Platform digital untuk pemilihan OSIS yang transparan, aman, dan mudah digunakan. Suaramu menentukan masa depan sekolah!</p>
+                    <div class="cta-buttons">
+                        <a href="#vote" class="btn btn-primary">
+                            <i class="fas fa-vote-yea"></i>
+                            Mulai Voting
+                        </a>
+                        <a href="#candidates" class="btn btn-secondary">
+                            <i class="fas fa-users"></i>
+                            Lihat Kandidat
+                        </a>
                     </div>
-                    <a href="#" class="btn btn-primary">
-                        <i class="fas fa-info-circle"></i>
-                        Lihat Detail
+                </div>
+            </div>
+        </section>
+        <div class="container">
+            <!-- Quick Vote Section -->
+            <section id="vote" class="section">
+                <div class="quick-vote">
+                    <div class="vote-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h2>Voting Cepat</h2>
+                    <p>Pilih kandidat favoritmu dengan sekali klik. Proses voting yang aman dan terjamin kerahasiaannya.</p>
+                    <a href="#candidates" class="btn btn-primary" style="margin-top: 1.5rem;">
+                        <i class="fas fa-arrow-right"></i>
+                        Pilih Kandidat
                     </a>
                 </div>
-                <div class="candidate-card scroll-animate">
-                    <div class="candidate-photo">S</div>
-                    <div class="candidate-name">Sari Indah</div>
-                    <div class="candidate-class">XII TKJ 2</div>
-                    <div class="candidate-vision">
-                        "Menciptakan lingkungan sekolah yang harmonis, produktif, dan mendukung pengembangan potensi setiap siswa."
+            </section>
+            <!-- Candidates Section -->
+            <section id="candidates" class="section">
+                <h2 class="section-title">Kandidat OSIS 2024</h2>
+                <div class="candidates-grid">
+                    <div class="candidate-card">
+                        <img src="/placeholder.svg?height=250&width=320&text=Kandidat+1" alt="Kandidat 1" class="candidate-image">
+                        <div class="candidate-info">
+                            <h3>Muhammad Fajar Sidiq</h3>
+                            <p class="position">Calon Ketua OSIS</p>
+                            <p>Visi: Mewujudkan OSIS yang inovatif, kreatif, dan berprestasi untuk kemajuan sekolah dan kesejahteraan siswa.</p>
+                            <div class="candidate-actions">
+                                <a href="#" class="btn btn-primary btn-small">
+                                    <i class="fas fa-vote-yea"></i>
+                                    Pilih
+                                </a>
+                                <a href="#" class="btn btn-secondary btn-small">
+                                    <i class="fas fa-info-circle"></i>
+                                    Detail
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <a href="#" class="btn btn-primary">
-                        <i class="fas fa-info-circle"></i>
-                        Lihat Detail
-                    </a>
-                </div>
-                <div class="candidate-card scroll-animate">
-                    <div class="candidate-photo">D</div>
-                    <div class="candidate-name">Dimas Pratama</div>
-                    <div class="candidate-class">XII MM 1</div>
-                    <div class="candidate-vision">
-                        "Mewujudkan OSIS yang transparan, akuntabel, dan mampu menghadirkan program-program yang bermanfaat."
+                    <div class="candidate-card">
+                        <img src="/placeholder.svg?height=250&width=320&text=Kandidat+2" alt="Kandidat 2" class="candidate-image">
+                        <div class="candidate-info">
+                            <h3>Siti Nurhaliza</h3>
+                            <p class="position">Calon Wakil Ketua OSIS</p>
+                            <p>Visi: Membangun komunikasi yang harmonis antara siswa dan guru serta menciptakan lingkungan sekolah yang kondusif.</p>
+                            <div class="candidate-actions">
+                                <a href="#" class="btn btn-primary btn-small">
+                                    <i class="fas fa-vote-yea"></i>
+                                    Pilih
+                                </a>
+                                <a href="#" class="btn btn-secondary btn-small">
+                                    <i class="fas fa-info-circle"></i>
+                                    Detail
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <a href="#" class="btn btn-primary">
-                        <i class="fas fa-info-circle"></i>
-                        Lihat Detail
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Timeline Section -->
-    <section class="section" id="jadwal">
-        <div class="container">
-            <div class="section-title scroll-animate">
-                <h2>Jadwal Pemilihan</h2>
-                <p>Timeline lengkap proses pemilihan Ketua OSIS 2025</p>
-            </div>
-            <div class="timeline-container">
-                <div class="timeline-item scroll-animate">
-                    <div class="timeline-icon">
-                        <i class="fas fa-user-plus"></i>
+                    <div class="candidate-card">
+                        <img src="/placeholder.svg?height=250&width=320&text=Kandidat+3" alt="Kandidat 3" class="candidate-image">
+                        <div class="candidate-info">
+                            <h3>Dimas Pratama</h3>
+                            <p class="position">Calon Sekretaris OSIS</p>
+                            <p>Visi: Meningkatkan transparansi dan akuntabilitas dalam setiap kegiatan OSIS untuk kepercayaan siswa.</p>
+                            <div class="candidate-actions">
+                                <a href="#" class="btn btn-primary btn-small">
+                                    <i class="fas fa-vote-yea"></i>
+                                    Pilih
+                                </a>
+                                <a href="#" class="btn btn-secondary btn-small">
+                                    <i class="fas fa-info-circle"></i>
+                                    Detail
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="timeline-title">Pendaftaran</div>
-                    <div class="timeline-date">1 - 7 Februari 2025</div>
-                    <div class="timeline-desc">Periode pendaftaran kandidat dan verifikasi berkas</div>
                 </div>
-                <div class="timeline-item scroll-animate">
-                    <div class="timeline-icon">
-                        <i class="fas fa-check-circle"></i>
+            </section>
+            <!-- Real-time Vote Results -->
+            <section id="results" class="section">
+                <h2 class="section-title">Hasil Voting Real-time</h2>
+                <div class="vote-results">
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <div class="result-number" id="totalVotes">1,247</div>
+                            <div class="result-label">Total Suara</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-number" id="participation">78%</div>
+                            <div class="result-label">Partisipasi</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-number" id="timeLeft">2d 14h</div>
+                            <div class="result-label">Waktu Tersisa</div>
+                        </div>
                     </div>
-                    <div class="timeline-title">Verifikasi</div>
-                    <div class="timeline-date">8 - 10 Februari 2025</div>
-                    <div class="timeline-desc">Proses verifikasi dan validasi kandidat</div>
-                </div>
-                <div class="timeline-item scroll-animate">
-                    <div class="timeline-icon">
-                        <i class="fas fa-bullhorn"></i>
+                    <div style="margin-top: 3rem;">
+                        <h3 style="margin-bottom: 2rem; color: var(--deep-red);">Perolehan Suara Sementara</h3>
+                        <div style="margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Muhammad Fajar Sidiq</span>
+                                <span>45.2% (564 suara)</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45.2%"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Siti Nurhaliza</span>
+                                <span>32.8% (409 suara)</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 32.8%"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Dimas Pratama</span>
+                                <span>22.0% (274 suara)</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 22.0%"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="timeline-title">Kampanye</div>
-                    <div class="timeline-date">11 - 17 Februari 2025</div>
-                    <div class="timeline-desc">Masa kampanye dan sosialisasi program kandidat</div>
                 </div>
-                <div class="timeline-item scroll-animate">
-                    <div class="timeline-icon">
-                        <i class="fas fa-vote-yea"></i>
+            </section>
+        </div>
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>JagoanOsisKu</h3>
+                        <p>Platform digital untuk pemilihan OSIS yang transparan dan demokratis di SMK Negeri 1 Probolinggo. Mendukung demokrasi siswa dengan teknologi modern.</p>
+                        <div class="footer-logos">
+                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/JagoanOsisKu-Logo-zF5evax6Gyn0RQ9yjnlWM3O34IcnG1.png" alt="JagoanOsisKu" class="footer-logo">
+                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logoosis.jpg-acpHUdolMJFX6fLgEt2pFbcgtefjaP.jpeg" alt="OSIS Dipta Baskara" class="footer-logo">
+                            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-SItg6DmkJoYLpIJFQKEeU8NwYwAEve.png" alt="SMK Negeri 1 Probolinggo" class="footer-logo">
+                        </div>
                     </div>
-                    <div class="timeline-title">Pemilihan</div>
-                    <div class="timeline-date">18 Februari 2025</div>
-                    <div class="timeline-desc">Hari pemilihan dan penghitungan suara</div>
+                    <div class="footer-section">
+                        <h3>Kontak</h3>
+                        <p><i class="fas fa-envelope"></i> info@jagoanosisku.sch.id</p>
+                        <p><i class="fas fa-phone"></i> (0335) 421234</p>
+                        <p><i class="fas fa-map-marker-alt"></i> SMK Negeri 1 Probolinggo</p>
+                        <p><i class="fas fa-globe"></i> www.smkn1probolinggo.sch.id</p>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Tautan Cepat</h3>
+                        <a href="#home">Beranda</a>
+                        <a href="#candidates">Kandidat</a>
+                        <a href="#results">Hasil Voting</a>
+                        <a href="#profile">Profil Saya</a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 JagoanOsisKu - OSIS Dipta Baskara SMK Negeri 1 Probolinggo. Pribadi Baru Sakana. Semua hak dilindungi.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Voting Section -->
-    <section class="section voting-section" id="voting">
-        <div class="container">
-            <div class="section-title scroll-animate">
-                <h2>Status Pemilihan</h2>
-                <p>Berpartisipasilah dalam menentukan pemimpin masa depan</p>
-            </div>
-            <div class="voting-status scroll-animate" id="votingStatus">
-                <h3>Kamu belum memberikan suara</h3>
-                <p>Gunakan hak pilihmu untuk menentukan Ketua OSIS terbaik</p>
-                <button class="btn vote-btn" onclick="startVoting()">
-                    <i class="fas fa-vote-yea"></i>
-                    Mulai Memilih
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Results Section -->
-    <section class="section results" id="hasil">
-        <div class="container">
-            <div class="section-title scroll-animate">
-                <h2>Hasil Sementara</h2>
-                <p>Pantau perkembangan hasil pemilihan secara real-time</p>
-            </div>
-            <div class="chart-container scroll-animate">
-                <canvas id="resultsChart" width="400" height="200"></canvas>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>OSIS Dipta Baskara</h3>
-                <p>Organisasi Siswa Intra Sekolah</p>
-                <p>SMK Negeri 1 Probolinggo</p>
-                <p>Jl. Raya Panglima Sudirman No.1</p>
-                <p>Probolinggo, Jawa Timur</p>
-            </div>
-            <div class="footer-section">
-                <h3>Kontak</h3>
-                <a href="mailto:osis@smkn1probolinggo.sch.id">
-                    <i class="fas fa-envelope"></i> osis@smkn1probolinggo.sch.id
-                </a>
-                <a href="tel:+62335421234">
-                    <i class="fas fa-phone"></i> (0335) 421234
-                </a>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <a href="#home">Beranda</a>
-                <a href="#kandidat">Kandidat</a>
-                <a href="#jadwal">Jadwal</a>
-                <a href="#voting">Voting</a>
-                <a href="#hasil">Hasil</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 OSIS Dipta Baskara - SMKN 1 Probolinggo. Developed by SMKN 1 Probolinggo.</p>
-        </div>
-    </footer>
-
+        </footer>
+    </main>
     <script>
-        // Mobile menu toggle
-        const mobileToggle = document.getElementById('mobileToggle');
-        const navMenu = document.getElementById('navMenu');
-
-        mobileToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            const icon = mobileToggle.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
+        // Sidebar toggle functionality
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
         });
-
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+        // Navigation link active state
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                // Remove active class from all links
+                navLinks.forEach(l => l.classList.remove('active'));
+                // Add active class to clicked link
+                e.target.closest('.nav-link').classList.add('active');
+                // Close sidebar on mobile after clicking
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                }
+            });
+        });
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -750,174 +791,94 @@
                         block: 'start'
                     });
                 }
-                // Close mobile menu if open
-                navMenu.classList.remove('active');
-                mobileToggle.querySelector('i').classList.add('fa-bars');
-                mobileToggle.querySelector('i').classList.remove('fa-times');
             });
         });
-
-        // Active navigation link
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('.nav-link');
-
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                if (scrollY >= sectionTop) {
-                    current = section.getAttribute('id');
+        // Animated counter for vote results
+        function animateCounter(element, target, duration = 2000) {
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
                 }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
+                if (element.id === 'totalVotes') {
+                    element.textContent = Math.floor(current).toLocaleString();
+                } else if (element.id === 'participation') {
+                    element.textContent = Math.floor(current) + '%';
                 }
-            });
-        });
-
-        // Scroll animations
+            }, 16);
+        }
+        // Intersection Observer for animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
         };
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.scroll-animate').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Voting functionality
-        let hasVoted = localStorage.getItem('hasVoted') === 'true';
-
-        function updateVotingStatus() {
-            const votingStatus = document.getElementById('votingStatus');
-            if (hasVoted) {
-                votingStatus.innerHTML = `
-                    <h3>Terima kasih sudah berpartisipasi!</h3>
-                    <div class="voted-status">
-                        <i class="fas fa-check-circle"></i>
-                        Kamu sudah memberikan suara
-                    </div>
-                `;
-            }
-        }
-
-        function startVoting() {
-            if (hasVoted) {
-                alert('Anda sudah memberikan suara sebelumnya!');
-                return;
-            }
-
-            // Simulate voting process
-            const candidates = ['Ahmad Rizki', 'Sari Indah', 'Dimas Pratama'];
-            const choice = prompt(`Pilih kandidat:\n1. ${candidates[0]}\n2. ${candidates[1]}\n3. ${candidates[2]}\n\nMasukkan nomor (1-3):`);
-
-            if (choice && choice >= 1 && choice <= 3) {
-                const selectedCandidate = candidates[choice - 1];
-                const confirm = window.confirm(`Anda yakin memilih ${selectedCandidate}?\nPilihan tidak dapat diubah setelah dikonfirmasi.`);
-
-                if (confirm) {
-                    // Save vote
-                    localStorage.setItem('hasVoted', 'true');
-                    localStorage.setItem('selectedCandidate', choice);
-                    hasVoted = true;
-
-                    alert(`Terima kasih! Suara Anda untuk ${selectedCandidate} telah tercatat.`);
-                    updateVotingStatus();
-                    updateChart();
-                }
-            }
-        }
-
-        function logout() {
-            const confirm = window.confirm('Apakah Anda yakin ingin keluar?');
-            if (confirm) {
-                // Clear session data
-                localStorage.clear();
-                // Redirect to login page
-                window.location.href = 'login.html';
-            }
-        }
-
-        // Chart.js for results
-        let resultsChart;
-
-        function initChart() {
-            const ctx = document.getElementById('resultsChart').getContext('2d');
-
-            resultsChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Ahmad Rizki', 'Sari Indah', 'Dimas Pratama'],
-                    datasets: [{
-                        data: [45, 35, 20],
-                        backgroundColor: [
-                            '#2E0066',
-                            '#A944D4',
-                            '#6D28D9'
-                        ],
-                        borderWidth: 0,
-                        hoverOffset: 10
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 20,
-                                font: {
-                                    size: 14,
-                                    family: 'Inter'
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.label + ': ' + context.parsed + '%';
-                                }
-                            }
-                        }
+                    entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
+                    // Animate counters when results section is visible
+                    if (entry.target.id === 'results') {
+                        setTimeout(() => {
+                            animateCounter(document.getElementById('totalVotes'), 1247);
+                            animateCounter(document.getElementById('participation'), 78);
+                        }, 500);
                     }
                 }
             });
-        }
-
-        function updateChart() {
-            // Simulate updated results after voting
-            const newData = [46, 34, 20]; // Updated percentages
-            resultsChart.data.datasets[0].data = newData;
-            resultsChart.update();
-        }
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            updateVotingStatus();
-            initChart();
+        }, observerOptions);
+        // Observe elements for animation
+        document.querySelectorAll('.candidate-card, .result-item, .vote-results').forEach(el => {
+            observer.observe(el);
         });
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 100) {
-                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-                navbar.style.backdropFilter = 'blur(10px)';
+        // Observe results section
+        const resultsSection = document.getElementById('results');
+        if (resultsSection) {
+            observer.observe(resultsSection);
+        }
+        // Real-time updates simulation
+        function updateVoteCount() {
+            const totalVotesEl = document.getElementById('totalVotes');
+            const currentVotes = parseInt(totalVotesEl.textContent.replace(',', ''));
+            const newVotes = currentVotes + Math.floor(Math.random() * 5) + 1;
+            totalVotesEl.textContent = newVotes.toLocaleString();
+            // Update participation
+            const participationEl = document.getElementById('participation');
+            const newParticipation = Math.min(100, Math.floor((newVotes / 1600) * 100));
+            participationEl.textContent = newParticipation + '%';
+        }
+        // Update vote count every 30 seconds
+        setInterval(updateVoteCount, 30000);
+        // Countdown timer
+        function updateCountdown() {
+            const timeLeftEl = document.getElementById('timeLeft');
+            const now = new Date().getTime();
+            const endDate = new Date('2024-12-31 23:59:59').getTime();
+            const distance = endDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            timeLeftEl.textContent = `${days}d ${hours}h`;
+        }
+        // Update countdown every minute
+        setInterval(updateCountdown, 60000);
+        updateCountdown(); // Initial call
+        // Update profile status dynamically
+        function updateProfileStatus(hasVoted) {
+            const statusElement = document.querySelector('.profile-status');
+            const icon = statusElement.querySelector('i');
+            if (hasVoted) {
+                statusElement.innerHTML = '<i class="fas fa-check-circle" style="color: #28a745;"></i> Sudah Memilih';
             } else {
-                navbar.style.background = '#FFFFFF';
-                navbar.style.backdropFilter = 'none';
+                statusElement.innerHTML = '<i class="fas fa-circle" style="color: #ffc107;"></i> Belum Memilih';
+            }
+        }
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('active');
             }
         });
     </script>
