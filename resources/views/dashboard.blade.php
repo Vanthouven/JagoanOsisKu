@@ -513,14 +513,26 @@
             <p class="sidebar-subtitle">Platform Pemilihan OSIS</p>
         </div>
         <!-- Voter Profile -->
-        <div class="sidebar-profile">
+        <div class="sidebar-profile"> 
             <div class="profile-card">
-                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-H8mmkCGziiNC7pfWqspdMo3vs6XyAg.png" alt="Ahmad Rizki Pratama" class="profile-avatar">
-                <div class="profile-name">Ahmad Rizki Pratama</div>
-                <div class="profile-class">XII RPL 1</div>
+                {{-- Foto profil (gunakan default jika belum ada) --}}
+                <img src="{{ Auth::user()->avatar ?? 'https://i.pinimg.com/736x/35/c5/87/35c58704d8812a9cd32e2ce30121ed6e.jpg' }}" 
+                     alt="{{ Auth::user()->nama }}" 
+                     class="profile-avatar">
+
+                {{-- Nama pengguna --}}
+                <div class="profile-name">{{ Auth::user()->nama }}</div>
+
+                {{-- Kelas (pastikan kolom ini ada di database users/student) --}}
+                <div class="profile-class">{{ Auth::user()->kelas ?? 'Kelas tidak diketahui' }}</div>
+
+                {{-- Status (contoh saja, bisa diubah sesuai data di database) --}}
                 <div class="profile-status">
-                    <i class="fas fa-circle" style="color: #ffc107;"></i>
-                    Belum Memilih
+                    @if(Auth::user()->status == 'belum')
+                        <i class="fas fa-circle" style="color: #ffc107;"></i> Belum Memilih
+                    @else
+                        <i class="fas fa-circle" style="color: #28a745;"></i> Sudah Memilih
+                    @endif
                 </div>
             </div>
         </div>
