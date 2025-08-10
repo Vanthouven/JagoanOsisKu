@@ -528,7 +528,7 @@
 
                 {{-- Status (contoh saja, bisa diubah sesuai data di database) --}}
                 <div class="profile-status">
-                    @if(Auth::user()->status == 'belum')
+                    @if(Auth::user()->sudah_memilih == '0')
                         <i class="fas fa-circle" style="color: #ffc107;"></i> Belum Memilih
                     @else
                         <i class="fas fa-circle" style="color: #28a745;"></i> Sudah Memilih
