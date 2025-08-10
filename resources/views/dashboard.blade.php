@@ -557,10 +557,15 @@
                 </a>
             </div>
             <div class="nav-item">
-                <a href="#logout" class="nav-link">
+                <a href="#" id="logoutLink" class="nav-link">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Keluar</span>
                 </a>
+
+                <!-- Form POST tersembunyi untuk logout -->
+                <form id="logoutForm" action="{{ route('logout') }}" method="POST" style="display:none;">
+                    @csrf
+                </form>
             </div>
         </div>
     </nav>
@@ -880,6 +885,15 @@
             if (window.innerWidth > 768) {
                 sidebar.classList.remove('active');
             }
+        });
+
+        document.getElementById('logoutLink').addEventListener('click', function(e){
+            e.preventDefault();
+
+            // optional: konfirmasi
+            if (!confirm('Yakin ingin keluar?')) return;
+
+            document.getElementById('logoutForm').submit();
         });
     </script>
 </body>
